@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import pickle
 import numpy as np
 
 app = Flask(__name__)
 
+# Load the model
 with open('xgb_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
@@ -24,5 +25,9 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)})
 
+# Start the server on a specific host and port
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use 0.0.0.0 to allow the server to be accessed externally
+    port = 5000  # Default port
+    app.run(host='0.0.0.0', port=port, debug=True)
+
